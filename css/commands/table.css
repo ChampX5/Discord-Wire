@@ -1,0 +1,39 @@
+.slash-commands {
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    padding-top: 0;
+}
+
+table,
+td,
+th {
+    border: 4px solid white;
+    border-collapse: collapse;
+    padding: 10px 10px;
+    font-size: 2rem;
+    color: white;
+    font-weight: lighter;
+    text-align: center;
+    height: fit-content;
+}
+
+.permission {
+    border: 1px solid white;
+    padding: 0 10px;
+}
+
+.text-slash-commands {
+    color: white;
+    font-size: 2rem;
+    margin: 25px;
+    margin-top: 0;
+}
+
+.parameter {
+    border: 1px solid white;
+    padding: 0 10px;
+}

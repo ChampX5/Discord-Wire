@@ -1,0 +1,91 @@
+.btn {
+	border: 2px solid white;
+	padding: 10px 25px;
+	font-size: 25px;
+	background-color: transparent;
+	color: white;
+	margin: 10px;
+	cursor: pointer;
+	border-radius: 5px;
+	transition-duration: 250ms;
+}
+
+.btn:hover {
+	background-color: rgba(255, 255, 255, 0.15);
+}
+
+.text-big {
+    font-size: 50px;
+}
+
+.text-small {
+    font-size: 25px;
+}
+
+@media only screen and (max-width: 1024px) {
+	.text-big {
+		font-size: 35px;
+	}
+
+	.text-small {
+		font-size: 24px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.text-big {
+		font-size: 30px;
+	}
+
+	.text-small {
+		font-size: 20px;
+	}
+}
+
+@media only screen and (max-width: 425px) {
+	.text-big {
+		font-size: 30px;
+	}
+
+	.text-small {
+		font-size: 15px;
+	}
+
+	.secondHalf-first img {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 375px) {
+	.text-big {
+		font-size: 20px;
+	}
+	
+	.text-small {
+		font-size: 15px;
+	}
+}
+
+@media only screen and (max-width: 540px) {
+	.text-big {
+		font-size: 24px;
+	}
+
+	.text-small {
+		font-size: 17px;
+	}
+}
+
+@media only screen and (max-width: 280px) {
+	.text-big {
+		font-size: 20px;
+	}
+
+	.text-small {
+		font-size: 13px;
+	}
+
+	.container-second div .btn {
+		font-size: 15px;
+	}
+}

@@ -1,0 +1,35 @@
+.box-main-second a {
+    text-decoration: none;
+}
+
+.secondSection {
+    height: 50vh;
+}
+
+.box-main-second {
+    display: flex;
+    justify-content: center;
+}
+
+.container-second {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    width: 50%;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    transition-duration: 150ms;
+}
+
+.container-second:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.container-second div {
+    padding: 15px;
+    margin: 10px;
+    color: white;
+}

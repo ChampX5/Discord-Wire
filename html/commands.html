@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Wire - Commands</title>
+
+        <link
+            rel="shortcut icon"
+            href="../img/botpic.png"
+            type="image/x-icon"
+        />
+
+        <link rel="stylesheet" href="../css/defaultStyle.css" />
+        <link rel="stylesheet" href="../css/navbar.css" />
+        <link rel="stylesheet" href="../css/commands/table.css" />
+        <link rel="stylesheet" href="../css/scrollbar.css" />
+    </head>
+
+    <body>
+        <script>
+            class SlashCommand extends HTMLElement {
+                constructor() {
+                    super();
+                }
+
+                connectedCallback() {
+                    const name = this.getAttribute('name').toLowerCase();
+
+                    const parentElement = document.querySelector(
+                        `#${this.getAttribute('parent-id')}`
+                    );
+
+                    const row = document.createElement('tr');
+
+                    const nameCell = document.createElement('td');
+
+                    nameCell.innerHTML = name;
+                    nameCell.className = 'command-name';
+
+                    const permissionsCell = document.createElement('td');
+                    permissionsCell.className = 'permissions';
+
+                    if (!this.getAttribute('permissions')) {
+                        permissionsCell.innerHTML = 'None';
+                    } else {
+                        const permissions =
+                            this.getAttribute('permissions').split(/ +/);
+
+                        if (permissions.length === 1) {
+                            if (permissions[0].toLowerCase() === 'none') {
+                                permissionsCell.innerText = 'None';
+                            } else {
+                                permissionsCell.innerHTML = permissions[0]
+                                    .toUpperCase()
+                                    .replace(/_+/, ' ');
+                            }
+                        } else if (permissions.length === 0) {
+                            permissionsCell.innerText = 'None';
+                        } else {
+                            for (let i = 0; i < permissions.length; i++) {
+                                const permission =
+                                    document.createElement('div');
+                                permission.innerText = permissions[i]
+                                    .toUpperCase()
+                                    .replace(/_+/, ' ');
+
+                                permission.className = 'permission';
+                                permissionsCell.appendChild(permission);
+                            }
+                        }
+                    }
+
+                    const parametersCell = document.createElement('td');
+                    parametersCell.classList.add('parameters');
+
+                    if (!this.getAttribute('parameters')) {
+                        parametersCell.innerHTML = 'None';
+                    } else {
+                        const parameters = this.getAttribute('parameters')
+                            .slice(1)
+                            .replace(/>/g, '')
+                            .replace(/</g, '')
+                            .split(/ +/);
+
+                        if (this.getAttribute('parameters').length === 1) {
+                            parametersCell.innerHTML = `${
+                                parameters[0].split(':')[0]
+                            }: ${parameters[0].split(':')[1]}`;
+                        } else {
+                            for (const param of parameters) {
+                                const cell = document.createElement('div');
+                                cell.classList.add('parameter');
+
+                                const name = param
+                                    .replace(/_+/g, ' ')
+                                    .split(':')[0];
+
+                                const type = param.split(':')[1].split('-')[0];
+                                let required;
+
+                                if (param.split('-')[1]) {
+                                    required = param.split('-')[1];
+                                } else {
+                                    required = 'False';
+                                }
+
+                                cell.innerHTML = `${name}: <b>${type}</b> (Required: ${required})`;
+                                parametersCell.appendChild(cell);
+                            }
+                        }
+                    }
+
+                    row.appendChild(nameCell);
+                    row.appendChild(permissionsCell);
+                    row.appendChild(parametersCell);
+
+                    parentElement.appendChild(row);
+                    this.remove();
+                }
+            }
+
+            window.customElements.define('slash-command', SlashCommand);
+        </script>
+
+        <nav class="navbar">
+            <ul class="leftNav">
+                <div class="logo">
+                    <img src="../img/botpic.png" alt="logo" />
+                </div>
+                <li><a href="./index.html" class="navBtns">Home</a></li>
+                <li><button class="navBtns invite">Invite</button></li>
+                <li><button class="navBtns">Suggestions</button></li>
+                <li><button class="navBtns">Vote</button></li>
+            </ul>
+        </nav>
+
+        <section class="slash-commands">
+            <div class="text-slash-commands">Slash Commands</div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Permissions</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+
+                <tbody id="slash-commands-table">
+                    <slash-command
+                        name="ban"
+                        permissions="BAN_MEMBERS"
+                        parameters="&lt;target:User-True&gt; &lt;reason:String&gt; &lt;delete_messages:Choice&gt;"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="calc"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="clear"
+                        permissions="MANAGE_MESSAGES ADMINISTRATOR"
+                        parameters="&lt;messages_to_delete:Number-True&gt;"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="invite"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="kick"
+                        permissions="ADMINISTRATOR"
+                        parameters="&lt;target:User-True&gt; &lt;reason:String&gt;"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="poll"
+                        permissions="ADMINISTRATOR"
+                        parameters="&lt;question:String-True&gt; &lt;choice_a:String-True&gt; &lt;choice_b:String-True&gt;"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="send-embed"
+                        parameters="&lt;title:String-True&gt; &lt;description:String-True&gt; &lt;footer:String-True&gt;"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="serverinfo"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="timeout"
+                        permissions="MODERATE_MEMBERS"
+                        parameters="&lt;target:User-True&gt; &lt;duration:String-True&gt;"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="unban"
+                        permissions="BAN_MEMBERS"
+                        parameters="&lt;user-id:String-True&gt;"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+
+                    <slash-command
+                        name="wanted"
+                        parameters="&lt;target:User&gt;"
+                        parent-id="slash-commands-table"
+                    ></slash-command>
+                </tbody>
+            </table>
+        </section>
+    </body>
+
+    <script src="../js/buttons.js"></script>
+</html>

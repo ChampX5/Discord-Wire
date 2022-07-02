@@ -1,0 +1,68 @@
+.box-main-first {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: cursive;
+    max-width: 50%;
+    height: 85%;
+    margin: auto;
+}
+
+.first-intro {
+    font-family: 'Segoe UI';
+}
+
+.hover-element-first {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin: auto;
+	background-color: rgba(0, 0, 0, 0.1);
+	transition-duration: 250ms;
+}
+
+.prefix {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0 10px;
+    border-radius: 150px;
+    font-weight: bold;
+}
+
+.hover-element-first:hover {
+	background-color: rgba(0, 0, 0, 0.25);
+}
+
+.firstSection {
+    height: 95vh;
+}
+
+.firstHalf-first {
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.secondHalf-first {
+	width: 45%;
+}
+
+.secondHalf-first > img {
+    width: 70%;
+    border: 4px solid white;
+    border-radius: 50%;
+    display: block;
+    margin: auto;
+    transition-duration: 100ms;
+}
+
+.firstHalf-first > div {
+    padding: 10px;
+    margin: 10px;
+}
+
+.buttons-first {
+    margin: 10px;
+}
