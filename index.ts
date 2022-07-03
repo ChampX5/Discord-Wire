@@ -1,6 +1,7 @@
 import path from 'path';
 import { Client, Intents } from 'discord.js';
 import HandleBot from './classes';
+import 'dotenv/config';
 
 const client = new Client({
 	intents: [
@@ -40,4 +41,4 @@ new HandleBot({
 	]
 });
 
-client.login('OTEzMjkxNjQ2ODIzNzI3MTM1.YZ8XIA.AFjw1-pJ_ElzK0TNWsj_aBqVyTs');
+client.login(process.env.TOKEN);
