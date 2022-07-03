@@ -1,5 +1,5 @@
 import { MessageEmbed, Message } from 'discord.js';
-import { Button } from '../classes';
+import { Button } from '../../classes';
 
 export default {
     customId: 'calc-add',
