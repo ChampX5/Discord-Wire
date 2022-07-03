@@ -33,6 +33,11 @@
                         `#${this.getAttribute('parent-id')}`
                     );
 
+                    if (!parentElement) {
+                        console.error(`Provided parent-id for "${name}" is invalid.`);
+                        return;
+                    }
+
                     const row = document.createElement('tr');
 
                     const nameCell = document.createElement('td');
