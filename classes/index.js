@@ -318,14 +318,14 @@ class HandleBot {
             directory
         );
 
-        for (const file of files) {
-            const button = require(file.slice(0, file.length - 3)).default;
-
-            this.buttonTable.addRow(button.customId, '🟩 SUCCESS');
-            this.buttons.set(button.customId, button);
-        }
-
         if (files.length !== 0) {
+            for (const file of files) {
+                const button = require(file.slice(0, file.length - 3)).default;
+    
+                this.buttonTable.addRow(button.customId, '🟩 SUCCESS');
+                this.buttons.set(button.customId, button);
+            }
+            
             console.log(this.buttonTable.toString());
             console.log();
         } else {
@@ -341,18 +341,18 @@ class HandleBot {
             directory
         );
 
-        for (const file of files) {
-            const command = require(file.slice(0, file.length - 3)).default;
-            this.commandTable.addRow(
-                command.name,
-                command.category,
-                '🟩 SUCCESS'
-            );
-            this.toAdd.push(command);
-            this.commands.set(command.name, command);
-        }
-
         if (files.length !== 0) {
+            for (const file of files) {
+                const command = require(file.slice(0, file.length - 3)).default;
+                this.commandTable.addRow(
+                    command.name,
+                    command.category,
+                    '🟩 SUCCESS'
+                );
+                this.toAdd.push(command);
+                this.commands.set(command.name, command);
+            }
+
             console.log(this.commandTable.toString());
             console.log();
         } else {
@@ -368,14 +368,14 @@ class HandleBot {
             directory
         );
 
-        for (const file of files) {
-            const contextMenu = require(file.slice(0, file.length - 3)).default;
-            this.contextMenuTable.addRow(contextMenu.name, '🟩 SUCCESS');
-            this.toAdd.push(contextMenu);
-            this.contextMenus.set(contextMenu.name, contextMenu);
-        }
-
         if (files.length !== 0) {
+            for (const file of files) {
+                const contextMenu = require(file.slice(0, file.length - 3)).default;
+                this.contextMenuTable.addRow(contextMenu.name, '🟩 SUCCESS');
+                this.toAdd.push(contextMenu);
+                this.contextMenus.set(contextMenu.name, contextMenu);
+            }
+
             console.log(this.contextMenuTable.toString());
             console.log();
         } else {
@@ -391,29 +391,29 @@ class HandleBot {
             directory
         );
 
-        for (const file of files) {
-            const event = require(file.slice(0, file.length - 3)).default;
-
-            this.eventTable.addRow(event.name, '🟩 SUCCESS');
-
-            if (!event.once) {
-                this.client.on(event.name, (...args) => {
-                    event.callback(
-                        { client: this.client, instance: this },
-                        ...args
-                    );
-                });
-            } else {
-                this.client.once(event.name, (...args) => {
-                    event.callback(
-                        { client: this.client, instance: this },
-                        ...args
-                    );
-                });
-            }
-        }
-
         if (files.length !== 0) {
+            for (const file of files) {
+                const event = require(file.slice(0, file.length - 3)).default;
+    
+                this.eventTable.addRow(event.name, '🟩 SUCCESS');
+    
+                if (!event.once) {
+                    this.client.on(event.name, (...args) => {
+                        event.callback(
+                            { client: this.client, instance: this },
+                            ...args
+                        );
+                    });
+                } else {
+                    this.client.once(event.name, (...args) => {
+                        event.callback(
+                            { client: this.client, instance: this },
+                            ...args
+                        );
+                    });
+                }
+            }
+
             console.log(this.eventTable.toString());
             console.log();
         } else {
@@ -429,14 +429,14 @@ class HandleBot {
             directory
         );
 
-        for (const file of files) {
-            const menu = require(file.slice(0, file.length - 3)).default;
-
-            this.selectMenuTable.addRow(menu.customId, '🟩 SUCCESS');
-            this.selectMenus.set(menu.customId, menu);
-        }
-
         if (files.length !== 0) {
+            for (const file of files) {
+                const menu = require(file.slice(0, file.length - 3)).default;
+    
+                this.selectMenuTable.addRow(menu.customId, '🟩 SUCCESS');
+                this.selectMenus.set(menu.customId, menu);
+            }
+
             console.log(this.selectMenuTable.toString());
             console.log();
         } else {
