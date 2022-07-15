@@ -43,27 +43,6 @@ class HandleBot {
                 } else {
                     this.handleSlashCommands(options.slashCommandsDir, 'js');
                 }
-
-                this.commands.set('prefix', {
-                    name: 'prefix',
-                    description: 'Want to know the prefix? Well!',
-                    category: 'MISC',
-                    callback: async ({ interaction, guild }) => {
-                        const prefix =
-                            require(options.customPrefixesPath.toString())[
-                                guild.id
-                            ];
-                        if (!prefix) {
-                            await interaction.reply({
-                                content: `The prefix is: ${this.defaultPrefix}`
-                            });
-                        } else {
-                            await interaction.reply({
-                                content: `The prefix is: ${prefix}`
-                            });
-                        }
-                    }
-                });
             }
 
             if (options.handleSelectMenus) {
