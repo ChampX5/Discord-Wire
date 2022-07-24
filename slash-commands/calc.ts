@@ -1,4 +1,4 @@
-import { MessageButton, MessageEmbed, MessageActionRow } from 'discord.js';
+import { ButtonBuilder, ButtonStyle, EmbedBuilder, ActionRowBuilder, ButtonComponent } from 'discord.js';
 
 import { SlashCommand } from '../classes';
 
@@ -8,124 +8,124 @@ export default {
 	description: 'A Calculator made of buttons!',
 
 	callback: async ({ interaction, member }) => {
-		const row1 = new MessageActionRow().addComponents([
-			new MessageButton()
+		const row1 = new ActionRowBuilder<ButtonBuilder>().addComponents([
+			new ButtonBuilder()
 				.setLabel('Clear')
-				.setStyle('DANGER')
+				.setStyle(ButtonStyle.Danger)
 				.setCustomId('calc-clear'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('(')
-				.setStyle('PRIMARY')
+				.setStyle(ButtonStyle.Primary)
 				.setCustomId('calc-leftBracket'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel(')')
-				.setStyle('PRIMARY')
+				.setStyle(ButtonStyle.Primary)
 				.setCustomId('calc-rightBracket'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('/')
-				.setStyle('PRIMARY')
+				.setStyle(ButtonStyle.Primary)
 				.setCustomId('calc-divide')
 		]);
 
-		const row2 = new MessageActionRow().addComponents([
-			new MessageButton()
+		const row2 = new ActionRowBuilder<ButtonBuilder>().addComponents([
+			new ButtonBuilder()
 				.setLabel('7')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-7'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('8')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-8'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('9')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-9'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('*')
-				.setStyle('PRIMARY')
+				.setStyle(ButtonStyle.Primary)
 				.setCustomId('calc-multiply')
 		]);
 
-		const row3 = new MessageActionRow().addComponents([
-			new MessageButton()
+		const row3 = new ActionRowBuilder<ButtonBuilder>().addComponents([
+			new ButtonBuilder()
 				.setLabel('4')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-4'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('5')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-5'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('6')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-6'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('-')
-				.setStyle('PRIMARY')
+				.setStyle(ButtonStyle.Primary)
 				.setCustomId('calc-subtract')
 		]);
 
-		const row4 = new MessageActionRow().addComponents([
-			new MessageButton()
+		const row4 = new ActionRowBuilder<ButtonBuilder>().addComponents([
+			new ButtonBuilder()
 				.setLabel('1')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-1'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('2')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-2'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('3')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-3'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('+')
-				.setStyle('PRIMARY')
+				.setStyle(ButtonStyle.Primary)
 				.setCustomId('calc-add')
 		]);
 
-		const row5 = new MessageActionRow().addComponents([
-			new MessageButton()
+		const row5 = new ActionRowBuilder<ButtonBuilder>().addComponents([
+			new ButtonBuilder()
 				.setLabel('.')
-				.setStyle('PRIMARY')
+				.setStyle(ButtonStyle.Primary)
 				.setCustomId('calc-point'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('0')
-				.setStyle('SECONDARY')
+				.setStyle(ButtonStyle.Secondary)
 				.setCustomId('calc-0'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setEmoji('◀')
-				.setStyle('PRIMARY')
+				.setStyle(ButtonStyle.Primary)
 				.setCustomId('calc-backspace'),
 
-			new MessageButton()
+			new ButtonBuilder()
 				.setLabel('=')
-				.setStyle('SUCCESS')
+				.setStyle(ButtonStyle.Success)
 				.setCustomId('calc-equal')
 		]);
 
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle('Calculator!')
 			.setAuthor({
 				name: member.displayName,
 				iconURL: member.displayAvatarURL()
 			})
 			.setDescription('```\nEquation: \n```')
-			.setColor('DARK_BUT_NOT_BLACK');
+			.setColor('DarkButNotBlack');
 
 		await interaction.reply({
 			embeds: [embed],

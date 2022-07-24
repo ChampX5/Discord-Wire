@@ -1,4 +1,4 @@
-const { Collection } = require('discord.js');
+const { Collection, InteractionType, ApplicationCommand } = require('discord.js');
 const path = require('path');
 const { readdirSync } = require('fs');
 const AsciiTable = require('ascii-table');
@@ -105,54 +105,57 @@ class HandleBot {
         });
 
         this.client.on('interactionCreate', async (interaction) => {
-            if (interaction.isCommand()) {
-                const command = this.commands.get(interaction.commandName);
+            if (interaction.type === InteractionType.ApplicationCommand) {
+                if (interaction.isChatInputCommand()) {
+                    const command = this.commands.get(interaction.commandName);
 
-                if (!command) {
-                    interaction.reply({
-                        content: "That command doesn't exist.",
-                        ephemeral: true
+                    if (!command) {
+                        interaction.reply({
+                            content: "That command doesn't exist.",
+                            ephemeral: true
+                        });
+    
+                        return;
+                    }
+    
+                    command.callback({
+                        channel: interaction.channel,
+                        client: this.client,
+                        guild: interaction.guild,
+                        interaction: interaction,
+                        invitePermissions: options.permissionsForInvite,
+                        member: interaction.member,
+                        user: interaction.user,
+                        instance: this,
+                        variables: this.variables
                     });
-                    return;
                 }
 
-                command.callback({
-                    channel: interaction.channel,
-                    client: this.client,
-                    guild: interaction.guild,
-                    interaction: interaction,
-                    invitePermissions: options.permissionsForInvite,
-                    member: interaction.member,
-                    user: interaction.user,
-                    instance: this,
-                    variables: this.variables
-                });
-            }
-
-            if (interaction.isContextMenu()) {
-                const contextMenu = this.contextMenus.get(
-                    interaction.commandName
-                );
-
-                if (!contextMenu) {
-                    interaction.reply({
-                        content:
-                            'That context menu application does not exist.',
-                        ephemeral: true
+                if (interaction.isContextMenuCommand()) {    
+                    const contextMenu = this.contextMenus.get(
+                        interaction.commandName
+                    );
+    
+                    if (!contextMenu) {
+                        interaction.reply({
+                            content:
+                                'That context menu application does not exist.',
+                            ephemeral: true
+                        });
+                        return;
+                    }
+    
+                    contextMenu.callback({
+                        client: this.client,
+                        guild: interaction.guild,
+                        interaction: interaction,
+                        invitePermissions: options.permissionsForInvite,
+                        member: interaction.member,
+                        user: interaction.user,
+                        instance: this,
+                        variables: this.variables
                     });
-                    return;
                 }
-
-                contextMenu.callback({
-                    client: this.client,
-                    guild: interaction.guild,
-                    interaction: interaction,
-                    invitePermissions: options.permissionsForInvite,
-                    member: interaction.member,
-                    user: interaction.user,
-                    instance: this,
-                    variables: this.variables
-                });
             }
 
             if (interaction.isButton()) {

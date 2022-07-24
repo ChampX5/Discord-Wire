@@ -1,18 +1,23 @@
 import {
     Client,
     PermissionString,
-    ContextMenuInteraction,
     User,
     Guild,
     GuildMember,
     CommandInteraction,
-    TextBasedChannel,
+    GuildTextBasedChannel,
     Message,
     ButtonInteraction,
     ApplicationCommandOptionData,
     SelectMenuInteraction,
     ClientEvents,
-    Collection
+    Collection,
+    UserContextMenuInteraction,
+    MessageContextMenuInteraction,
+    SlashCommandOptionsOnlyBuilder,
+    GuildTextBasedChannel,
+    ContextMenuCommandType,
+    ContextMenuCommandInteraction
 } from 'discord.js';
 import { PathLike, Dirent } from 'fs';
 
@@ -21,7 +26,7 @@ interface SelectMenuCallbackObject {
     member: GuildMember;
     user: User;
     guild: Guild;
-    channel: TextBasedChannel;
+    channel: GuildTextBasedChannel;
     client: Client;
     invitePermissions: PermissionString[];
     instance: HandleBot;
@@ -50,7 +55,7 @@ interface SlashCommandCallbackObject {
     interaction: CommandInteraction;
     member: GuildMember;
     user: User;
-    channel: TextBasedChannel;
+    channel: GuildTextBasedChannel;
     guild: Guild;
     client: Client;
     invitePermissions: PermissionString[];
@@ -58,8 +63,8 @@ interface SlashCommandCallbackObject {
     variables: Collection<string, any>;
 }
 
-interface ContextMenuCallbackObject {
-    interaction: ContextMenuInteraction;
+interface ContextMenuCallbackObject<K extends ContextMenuCommandType> {
+    interaction: ContextMenuCommandInteraction<K>;
     member: GuildMember;
     user: User;
     guild: Guild;
@@ -189,11 +194,11 @@ export interface SlashCommand {
     callback(obj: SlashCommandCallbackObject): void;
 }
 
-export interface ContextMenu {
+export interface ContextMenu<K extends ContextMenuCommandType> {
     name: string;
-    type: 'USER' | 'MESSAGE';
+    type: K;
 
-    callback(obj: ContextMenuCallbackObject): void;
+    callback(obj: ContextMenuCallbackObject<K>): void;
 }
 
 export interface Event<K extends keyof ClientEvents> {

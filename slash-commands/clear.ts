@@ -1,3 +1,4 @@
+import { ApplicationCommandOptionType, GuildChannel } from 'discord.js';
 import { SlashCommand } from '../classes';
 
 export default {
@@ -10,45 +11,36 @@ export default {
             name: 'messages_to_delete',
             description:
                 'The number of messages you want to delete from this channel',
-            type: 'NUMBER',
+            type: ApplicationCommandOptionType.Number,
             required: true
         }
     ],
 
     callback: async ({ interaction, channel }) => {
-        let number = interaction.options.getNumber('messages_to_delete')!;
+        let number = interaction.options.get('messages_to_delete', true)
+            .value as number;
 
-        await channel.messages
-            .fetch({
-                limit: number
-            })
-            .then((messages) => {
-                if (channel.type === 'DM') {
-                    return;
-                }
+        const messages = await channel.messages.fetch({
+            limit: number
+        });
 
-                channel.bulkDelete(messages).then(async () => {
-                    let content;
+        try {
+            await channel.bulkDelete(messages);
 
-                    if (number === 1) {
-                        content = 'message';
-                    } else {
-                        content = 'messages';
-                    }
-
-                    await interaction.reply({
-                        content: `Deleted ${number} ${content} successfully!`,
-                        ephemeral: true
-                    });
-                });
-            })
-            .catch(async () => {
-                await interaction.reply({
-                    content:
-                        "I don't have enough permissions to delete the messages in this channel.",
-                    ephemeral: true
-                });
-                return;
+            await interaction.reply({
+                content: `Deleted ${number} ${
+                    number === 1 ? 'message' : 'messages'
+                } successfully!`,
+                ephemeral: true
             });
+        } catch {
+            await interaction.reply({
+                content:
+                    "I don't have enough permissions to delete the messages in this channel.",
+                ephemeral: true
+            });
+
+            return;
+        }
     }
 } as SlashCommand;

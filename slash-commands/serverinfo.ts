@@ -1,6 +1,6 @@
 import { SlashCommand } from '../classes';
 
-import { MessageEmbed } from 'discord.js';
+import { ChannelType, EmbedBuilder } from 'discord.js';
 
 export default {
 	name: 'serverinfo',
@@ -10,7 +10,7 @@ export default {
 	callback: async ({ interaction, guild, channel }) => {
 		const { members, channels, emojis, stickers, roles } = guild;
 
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 
 			.setTitle(guild.name)
 			.setAuthor({
@@ -60,12 +60,12 @@ export default {
 					value: [
 						`- Text: ${
 							channels.cache.filter(
-								(channel) => channel.type === 'GUILD_TEXT'
+								(channel) => channel.type === ChannelType.GuildText
 							).size
 						}`,
 						`- Voice: ${
 							channels.cache.filter(
-								(channel) => channel.type === 'GUILD_VOICE'
+								(channel) => channel.type === ChannelType.GuildVoice
 							).size
 						}`,
 						`- Threads: ${
@@ -81,23 +81,23 @@ export default {
 						}`,
 						`- Categories: ${
 							channels.cache.filter(
-								(channel) => channel.type === 'GUILD_CATEGORY'
+								(channel) => channel.type === ChannelType.GuildCategory
 							).size
 						}`,
 						`- Stages: ${
 							channels.cache.filter(
 								(channel) =>
-									channel.type === 'GUILD_STAGE_VOICE'
+									channel.type === ChannelType.GuildStageVoice
 							).size
 						}`,
 						`- News: ${
 							channels.cache.filter(
-								(channel) => channel.type === 'GUILD_NEWS'
+								(channel) => channel.type === ChannelType.GuildNews
 							).size
 						}`,
 						`- Total: ${
 							channels.cache.filter(
-								(channel) => channel.type !== 'GUILD_CATEGORY'
+								(channel) => channel.type !== ChannelType.GuildCategory
 							).size
 						}`
 					].join('\n')
@@ -118,7 +118,7 @@ export default {
 				{
 					name: 'NITRO STATISTICS',
 					value: [
-						`- Tier: ${guild.premiumTier.replace('TIER_', '')}`,
+						`- Tier: ${guild.premiumTier.toString().replace('TIER_', '')}`,
 						`- Boosts: ${guild.premiumSubscriptionCount}`,
 						`- Boosters: ${
 							members.cache.filter((member): boolean => {
@@ -136,7 +136,7 @@ export default {
 				text: 'Last Checked'
 			})
 			.setTimestamp()
-			.setColor('PURPLE');
+			.setColor('Purple');
 
 		await channel.sendTyping();
 		await interaction.reply({ embeds: [embed] });

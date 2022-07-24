@@ -1,6 +1,6 @@
 import { SlashCommand } from '../classes';
 
-import { MessageEmbed } from 'discord.js';
+import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js';
 
 export default {
 	name: 'timeout',
@@ -13,14 +13,14 @@ export default {
 			name: 'target',
 			description: 'The user that gets timed out.',
 			required: true,
-			type: 'USER'
+			type: ApplicationCommandOptionType.User
 		},
 		{
 			name: 'duration',
 			description:
 				'For how much time you want this user to be timed out.',
 			required: true,
-			type: 'INTEGER',
+			type: ApplicationCommandOptionType.Integer,
 			choices: [
 				{
 					name: '60 secs',
@@ -47,17 +47,21 @@ export default {
 					value: 7 * 24 * 60 * 60 * 1000
 				}
 			]
+		},
+		{
+			name: 'reason',
+			description: 'The reason you\'re timing this user out.',
+			type: ApplicationCommandOptionType.String,
+			required: true
 		}
 	],
 	callback: async ({ interaction, guild }) => {
 		const user = interaction.options.getUser('target')!;
 		const member = guild.members.cache.get(user.id);
 
-		let reason;
-		reason = interaction.options.getString('reason');
-		if (!reason) reason = 'No reason provided';
+		const reason = interaction.options.get('reason', true).value as string;
 
-		const duration = interaction.options.getInteger('duration')!;
+		const duration = interaction.options.get('duration', true).value as number;
 
 		if (!member) {
 			interaction.reply({
@@ -104,12 +108,12 @@ export default {
 							durationText = '1 week';
 							break;
 					}
-					const interactionReply = new MessageEmbed()
+					const interactionReply = new EmbedBuilder()
 						.setTitle('Timeout Notice!')
 						.setDescription(
 							`You have been timed out in ${interaction.guild?.name} for ${durationText}.`
 						)
-						.setColor('BLUE');
+						.setColor('Blue');
 					channel.send({
 						embeds: [interactionReply]
 					});
@@ -119,12 +123,12 @@ export default {
 			member.timeout(duration, reason);
 		}
 
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle('SUCCESS')
 			.setDescription(
 				`${user.username} has been timed out for ${duration} minutes.`
 			)
-			.setColor('GREEN');
+			.setColor('Green');
 
 		interaction.reply({
 			embeds: [embed]

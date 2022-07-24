@@ -1,55 +1,56 @@
 import { ContextMenu } from '../classes';
 
-import { MessageEmbed } from 'discord.js';
+import { ApplicationCommandType, EmbedBuilder } from 'discord.js';
 
 export default {
     name: 'userinfo',
-    type: 'USER',
+    type: ApplicationCommandType.User,
 
-    callback: async ({ interaction, guild, variables }) => {
+    callback: async ({ interaction, guild }) => {
         const target = guild.members.cache.get(interaction.targetId)!;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
 
             .setTitle(target.user.username)
-            .setColor('PURPLE')
+            .setColor('Purple')
 
             .setAuthor({
                 name: target.user.tag,
-                iconURL: target.user.avatarURL({ dynamic: true, size: 512 })!
+                iconURL: target.user.avatarURL({ size: 512 })!
             })
             .setThumbnail(
                 target.user.avatarURL({
-                    dynamic: true,
-                    size: 512,
-                    format: 'png'
+                    size: 512
                 })!
             )
 
-            .addField('ID', target.user.id.toString())
-            .addField(
-                'Roles',
-                `${
-                    target.roles.cache
-                        .map((r) => r)
-                        .join(' ')
-                        .replace('@everyone', '') || 'None'
-                }`
-            )
-            .addField(
-                'Member Since',
-                `<t:${(target.joinedTimestamp! / 1000).toFixed(0)}:R>`,
-                true
-            )
-            .addField(
-                'Discord User Since',
-                `<t:${(target.user.createdTimestamp / 1000).toFixed(0)}:R>`,
-                true
-            );
+            .addFields([
+                { name: 'ID', value: target.user.id.toString() },
+                
+                {
+                    name: 'Roles',
+                    value: `${
+                        target.roles.cache
+                            .map((r) => r)
+                            .join(' ')
+                            .replace('@everyone', '') || 'None'
+                    }`
+                },
+                
+                {
+                    name: 'Member Since',
+                    value: `<t:${(target.joinedTimestamp! / 1000).toFixed(0)}:R>`
+                },
+
+                {
+                    name: 'Discord User Since',
+                    value: `<t:${(target.user.createdTimestamp / 1000).toFixed(0)}:R>`
+                }
+            ]);
 
         await interaction.reply({
             embeds: [embed],
             ephemeral: true
         });
     }
-} as ContextMenu;
+} as ContextMenu<ApplicationCommandType.User>;

@@ -1,5 +1,6 @@
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, EmbedBuilder } from 'discord.js';
 import { SlashCommand } from '../classes';
+import { ApplicationCommandOptionType } from 'discord.js';
 
 export default {
     name: 'poll',
@@ -11,30 +12,30 @@ export default {
 		{
 			name: 'question',
 			description: 'The question to be asked.',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: true
 		},
 		{
 			name: 'choice_a',
 			description: 'The first choice.',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: true
 		},
 		{
 			name: 'choice_b',
 			description: 'The second choice.',
-			type: 'STRING',
+			type: ApplicationCommandOptionType.String,
 			required: true
 		}
 	],
 
     callback: async ({ interaction }) => {
-        const first = interaction.options.getString('choice_a', true);
-        const second = interaction.options.getString('choice_b', true);
+        const first = interaction.options.get('choice_a', true).value as string;
+        const second = interaction.options.get('choice_b', true).value as string;
 
-        const question = interaction.options.getString('question', true);
+        const question = interaction.options.get('question', true).value as string;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
 
             .setTitle(question)
             .setDescription(`:one: ${first}\n:two: ${second}`);

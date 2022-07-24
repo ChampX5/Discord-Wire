@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { ApplicationCommandOptionType, EmbedBuilder } from 'discord.js';
 
 import { SlashCommand } from '../classes';
 
@@ -10,20 +10,20 @@ export default {
 	options: [
 		{
 			name: 'target',
-			description: 'The user that gets banned',
-			type: 'USER',
+			description: 'The user that gets banned.',
+			type: ApplicationCommandOptionType.User,
 			required: true
 		},
 		{
 			name: 'reason',
-			description: 'The user that gets banned',
-			type: 'STRING',
+			description: 'The reason you\'re banning this user.',
+			type: ApplicationCommandOptionType.String,
 			required: true
 		},
 		{
 			name: 'delete_messages',
 			description: 'The user that gets banned',
-			type: 'NUMBER',
+			type: ApplicationCommandOptionType.Number,
 			required: true,
 
 			choices: [
@@ -45,11 +45,11 @@ export default {
 	permissions: ['BAN_MEMBERS'],
 
 	callback: async ({ interaction, client, guild }) => {
-		const user = interaction.options.getUser('target')!;
+		const user = interaction.options.get('target', true).user!;
 		const serverMember = guild.members.cache.get(user.id)!;
 
-		const reason = interaction.options.getString('reason', true);
-		const days = interaction.options.getNumber('delete_messages', true);
+		const reason = interaction.options.get('reason', true);
+		const days = interaction.options.get('delete_messages', true);
 
 		if (serverMember.user.id === client.user!.id) {
 			await interaction.reply({
@@ -67,30 +67,31 @@ export default {
 			return;
 		}
 
-		const interactionReply = new MessageEmbed()
+		const interactionReply = new EmbedBuilder()
 			.setTitle('SUCCESS')
-			.setColor('GREEN')
+			.setColor('Green')
 			.setDescription(
-				`${user.username} has been banned from the server.\nReason: ${reason}`
+				`${user.username} has been banned from the server.\nReason: ${reason.value! as string}`
 			);
 
 		if (serverMember.user.bot) {
 			await serverMember.ban({
-				reason: reason,
-				days: days
+				reason: reason.value! as string,
+				deleteMessageDays: Number(days.value!)
 			});
+
 			await interaction.reply({
 				embeds: [interactionReply]
 			});
 			return;
 		}
 
-		const embed = new MessageEmbed()
+		const embed = new EmbedBuilder()
 			.setTitle(`Banned from ${interaction.guild?.name}`)
 			.setDescription(
 				`You were banned from ${interaction.guild?.name}\nReason: ${reason}`
 			)
-			.setColor('BLUE');
+			.setColor('Blue');
 
 		const channel = await serverMember.createDM(true);
 
@@ -99,8 +100,8 @@ export default {
 		}).then(() => {
 			serverMember
 					.ban({
-						reason: reason as string,
-						days: days
+						reason: reason.value! as string,
+						deleteMessageDays: Number(days.value!)
 					})
 					.then(() => {
 						interaction.reply({

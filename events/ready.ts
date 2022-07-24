@@ -1,3 +1,4 @@
+import { ActivityType } from 'discord.js';
 import { Event } from '../classes';
 
 export default {
@@ -10,8 +11,8 @@ export default {
 		client.user!.setPresence({
 			activities: [
 				{
-					name: `/help`,
-					type: 'WATCHING'
+					name: `/command`,
+					type: ActivityType.Watching
 				}
 			],
 			status: 'online'

@@ -1,6 +1,6 @@
 import { Button } from "../../classes";
 
-import { MessageEmbed, Message } from 'discord.js';
+import { EmbedBuilder, Message } from 'discord.js';
 
 export default {
     customId: 'calc-2',
@@ -13,14 +13,14 @@ export default {
                 interaction.message.embeds[0].description!.toString().length - 4
             );
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle("Calculator!")
             .setAuthor({
                 name: user.username,
                 iconURL: user.displayAvatarURL()
             })
             .setDescription(`\`\`\`\n${content}2\n\`\`\``)
-            .setColor("DARK_BUT_NOT_BLACK");
+            .setColor('DarkButNotBlack')
 
         interaction.deferUpdate();
 

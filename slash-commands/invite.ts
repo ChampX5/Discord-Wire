@@ -1,27 +1,30 @@
 import { SlashCommand } from '../classes';
-import { MessageButton, MessageActionRow } from 'discord.js';
+import { ButtonBuilder, ActionRowBuilder, OAuth2Scopes, ButtonStyle } from 'discord.js';
 
 export default {
-	name: 'invite',
-	description: 'Loved the bot? Invite it!',
-	category: 'MISC',
+    name: 'invite',
+    description: 'Loved the bot? Invite it!',
+    category: 'MISC',
 
-	callback: async ({ interaction, client, invitePermissions }) => {
-		const row = new MessageActionRow().addComponents(
-			new MessageButton()
-				.setURL(
-					client.generateInvite({
-						scopes: ['applications.commands', 'bot'],
-						permissions: invitePermissions
-					})
-				)
-				.setStyle('LINK')
-				.setLabel('Click!')
-		);
+    callback: async ({ interaction, client, invitePermissions }) => {
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+            new ButtonBuilder()
+                .setURL(
+                    client.generateInvite({
+                        scopes: [
+                            OAuth2Scopes.ApplicationsCommands,
+                            OAuth2Scopes.Bot
+                        ],
+                        permissions: invitePermissions
+                    })
+                )
+                .setStyle(ButtonStyle.Link)
+                .setLabel('Click!')
+        );
 
-		await interaction.reply({
-			content: 'Click!',
-			components: [row]
-		});
-	}
+        await interaction.reply({
+            content: 'Click!',
+            components: [row]
+        });
+    }
 } as SlashCommand;
