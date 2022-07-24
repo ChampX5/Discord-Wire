@@ -16,8 +16,5 @@
         "node-fetch": "^3.2.4",
         "ts-node": "^10.7.0",
         "typescript": "^4.6.2"
-    },
-    "engine": {
-        "node": "17.4.0"
     }
 }
