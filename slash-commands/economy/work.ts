@@ -210,8 +210,8 @@ export default {
                 if (collectedInteraction.customId === 'eco-btn-correct') {
                     const earning =
                         Math.floor(
-                            Math.random() * data.work!.salary!.top -
-                                data.work!.salary!.bottom
+                            Math.random() * (data.work!.salary!.top -
+                                data.work!.salary!.bottom)
                         ) + data.work!.salary!.bottom;
 
                     await collectedInteraction.reply({
