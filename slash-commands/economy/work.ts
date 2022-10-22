@@ -319,10 +319,10 @@ export default {
                     collector.stop('collected');
 
                     const earning =
-                        (Math.floor(
+                        Math.floor((Math.floor(
                             Math.random() * data.work!.salary!.top -
                                 data.work!.salary!.bottom
-                        ) + data.work!.salary!.bottom) / 4;
+                        ) + data.work!.salary!.bottom) / 15);
 
                     await collectedInteraction.reply({
                         content: `Wrong button! Nonetheless, you earned ${earning} 🪙 for your efforts.`
