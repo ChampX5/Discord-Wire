@@ -3,7 +3,7 @@ import { ContextMenu } from '../classes';
 import { ApplicationCommandType, EmbedBuilder } from 'discord.js';
 
 export default {
-    name: 'userinfo',
+    name: 'User Info',
     type: ApplicationCommandType.User,
 
     callback: async ({ interaction, guild }) => {

@@ -22,6 +22,15 @@ export default {
         let number = interaction.options.get('messages_to_delete', true)
             .value as number;
 
+        if (number > 100) {
+            await interaction.reply({
+                content: 'That is too many messages! I can only clear 100 messages at a time.',
+                ephemeral: true
+            });
+
+            return;
+        }
+
         const messages = await channel.messages.fetch({
             limit: number
         });
