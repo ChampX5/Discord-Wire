@@ -26,7 +26,7 @@ export default {
         const ctx = canvas.getContext('2d');
 
         const background = await Canvas.loadImage(
-            path.join(__dirname, '../wantedTemplate.png')
+            path.join(__dirname, '../../wantedTemplate.png')
         );
 
         ctx.drawImage(background, 0, 0);
