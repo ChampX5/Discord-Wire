@@ -53,6 +53,8 @@ export default {
         data.wallet -= amt;
         data.bank += amt;
 
+        data.save();
+
         const embed = new EmbedBuilder()
             .setAuthor({
                 name: interaction.user.username,
