@@ -9,7 +9,7 @@ export default {
 
         await interaction.reply({
             content:
-                'Successfully deleted your account. If you want to start, be sure to use `/economy start` again!'
+                'Successfully deleted your account. If you want to start, be sure to use `/start` again!'
         });
     }
 } as Button;

@@ -35,10 +35,12 @@ export default {
                 } successfully!`,
                 ephemeral: true
             });
-        } catch {
+        } catch (err) {
+            console.error(err);
+
             await interaction.reply({
                 content:
-                    "I don't have enough permissions to delete the messages in this channel.",
+                    "Something went wrong. Failed.",
                 ephemeral: true
             });
 
