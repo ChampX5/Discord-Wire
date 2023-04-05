@@ -1,4 +1,4 @@
-import { ContextMenu } from '../classes';
+import { ContextMenu } from '../handler';
 
 import { ApplicationCommandType, EmbedBuilder } from 'discord.js';
 

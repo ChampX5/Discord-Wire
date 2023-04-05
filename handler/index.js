@@ -41,23 +41,10 @@ class HandleBot {
                     return;
                 }
 
-                if (options.typescript) {
-                    this.handleSlashCommands(options.slashCommandsDir, 'ts');
-                } else if (!options.typescript) {
-                    this.handleSlashCommands(options.slashCommandsDir, 'js');
-                }
-            }
-
-            if (options.handleSubCommands) {
-                if (!options.subCommandsDir) {
-                    console.log('[CODE] No command folder directory provided.');
-                } else {
-                    if (options.typescript) {
-                        this.handleSubCommands(options.slashCommandsDir, 'ts');
-                    } else if (!options.typescript) {
-                        this.handleSubCommands(options.slashCommandsDir, 'js');
-                    }
-                }
+                this.handleSlashCommands(
+                    options.slashCommandsDir,
+                    options.typescript ? 'ts' : 'js'
+                );
             }
 
             if (options.handleSelectMenus) {
@@ -66,11 +53,10 @@ class HandleBot {
                         '[CODE] No select menu directory was provided.'
                     );
                 } else {
-                    if (options.typescript) {
-                        this.handleSelectMenus(options.selectMenusDir, 'ts');
-                    } else if (!options.typescript) {
-                        this.handleSelectMenus(options.selectMenusDir, 'js');
-                    }
+                    this.handleSelectMenus(
+                        options.selectMenusDir,
+                        options.typescript ? 'ts' : 'js'
+                    );
                 }
             }
 
@@ -80,11 +66,10 @@ class HandleBot {
                         '[CODE] No button folder directory was provided.'
                     );
                 } else {
-                    if (options.typescript) {
-                        this.handleButtons(options.buttonsDir, 'ts');
-                    } else if (!options.typescript) {
-                        this.handleButtons(options.buttonsDir, 'js');
-                    }
+                    this.handleButtons(
+                        options.buttonsDir,
+                        options.typescript ? 'ts' : 'js'
+                    );
                 }
             }
 
@@ -92,19 +77,16 @@ class HandleBot {
                 if (!options.contextMenuDir) {
                     console.log('[CODE] No command folder directory provided.');
                 } else {
-                    if (options.typescript) {
-                        this.handleContextMenus(options.contextMenuDir, 'ts');
-                    } else if (!options.typescript) {
-                        this.handleContextMenus(options.contextMenuDir, 'js');
-                    }
+                    this.handleContextMenus(
+                        options.contextMenuDir,
+                        options.typescript ? 'ts' : 'js'
+                    );
                 }
             }
 
             if (process.env.DEV) {
-                if (Object.keys(options).includes('server')) {
-                    this.addToServer(options.server);
-                } else if (Object.keys(options).includes('servers')) {
-                    this.addToServers(servers);
+                if (Object.keys(options).includes('servers')) {
+                    this.addToServers(options.servers);
                 } else {
                     this.client.application.commands.set([]);
                     this.client.application.commands.set(this.toAdd);
@@ -115,11 +97,10 @@ class HandleBot {
                 if (!options.featuresDir) {
                     console.log('[CODE] No features directory was provided.');
                 } else {
-                    if (options.typescript) {
-                        this.handleFeatures(options.featuresDir, 'ts');
-                    } else {
-                        this.handleFeatures(options.featuresDir, 'js');
-                    }
+                    this.handleFeatures(
+                        options.featuresDir,
+                        options.typescript ? 'ts' : 'js'
+                    );
                 }
             }
         });
@@ -127,105 +108,108 @@ class HandleBot {
         this.client.on('interactionCreate', async (interaction) => {
             if (interaction.type === InteractionType.ApplicationCommand) {
                 if (interaction.isChatInputCommand()) {
-                    const command = this.commands.get(interaction.commandName);
+                    if (options.handleSlashCommands) {
+                        const command = this.commands.get(
+                            interaction.commandName
+                        );
 
-                    if (!command) {
-                        interaction.reply({
-                            content: "That command doesn't exist.",
-                            ephemeral: true
+                        if (!command) {
+                            interaction.reply({
+                                content: "That command doesn't exist.",
+                                ephemeral: true
+                            });
+
+                            return;
+                        }
+
+                        command.callback({
+                            channel: interaction.channel,
+                            client: this.client,
+                            guild: interaction.guild,
+                            interaction: interaction,
+                            invitePermissions: options.permissionsForInvite,
+                            member: interaction.member,
+                            user: interaction.user,
+                            instance: this,
+                            variables: this.variables
                         });
-
-                        return;
                     }
-
-                    command.callback({
-                        channel: interaction.channel,
-                        client: this.client,
-                        guild: interaction.guild,
-                        interaction: interaction,
-                        invitePermissions: options.permissionsForInvite,
-                        member: interaction.member,
-                        user: interaction.user,
-                        instance: this,
-                        variables: this.variables
-                    });
                 }
 
                 if (interaction.isContextMenuCommand()) {
-                    const contextMenu = this.contextMenus.get(
-                        interaction.commandName
-                    );
+                    if (options.handleContextMenus) {
+                        const contextMenu = this.contextMenus.get(
+                            interaction.commandName
+                        );
 
-                    if (!contextMenu) {
-                        interaction.reply({
-                            content:
-                                'That context menu application does not exist.',
-                            ephemeral: true
+                        if (!contextMenu) {
+                            interaction.reply({
+                                content:
+                                    'That context menu application does not exist.',
+                                ephemeral: true
+                            });
+                            return;
+                        }
+
+                        contextMenu.callback({
+                            client: this.client,
+                            guild: interaction.guild,
+                            interaction: interaction,
+                            invitePermissions: options.permissionsForInvite,
+                            member: interaction.member,
+                            user: interaction.user,
+                            instance: this,
+                            variables: this.variables
                         });
-                        return;
                     }
-
-                    contextMenu.callback({
-                        client: this.client,
-                        guild: interaction.guild,
-                        interaction: interaction,
-                        invitePermissions: options.permissionsForInvite,
-                        member: interaction.member,
-                        user: interaction.user,
-                        instance: this,
-                        variables: this.variables
-                    });
                 }
             }
 
             if (interaction.isButton()) {
-                const button = this.buttons.get(interaction.customId);
+                if (options.handleButtons) {
+                    const button = this.buttons.get(interaction.customId);
 
-                if (!button) {
-                    return;
+                    if (!button) {
+                        return;
+                    }
+
+                    button.callback({
+                        interaction: interaction,
+                        member: interaction.member,
+                        user: interaction.user,
+                        guild: interaction.guild,
+                        client: this.client,
+                        invitePermissions: options.permissionsForInvite,
+                        instance: this,
+                        variables: this.variables
+                    });
                 }
-
-                button.callback({
-                    interaction: interaction,
-                    member: interaction.member,
-                    user: interaction.user,
-                    guild: interaction.guild,
-                    client: this.client,
-                    invitePermissions: options.permissionsForInvite,
-                    instance: this,
-                    variables: this.variables
-                });
             }
 
-            if (interaction.isSelectMenu()) {
-                const { values, guild, member, user, channel, customId } =
-                    interaction;
+            if (interaction.isAnySelectMenu()) {
+                if (options.handleSelectMenus) {
+                    const { values, guild, member, user, channel, customId } =
+                        interaction;
 
-                const selectMenu = this.selectMenus.get(customId);
+                    const selectMenu = this.selectMenus.get(customId);
 
-                if (!selectMenu) {
-                    console.log('[CODE] No code was found.');
+                    if (!selectMenu) {
+                        return;
+                    }
 
-                    await interaction.reply({
-                        content: `No code was found for the following custom ID: ${customId}`,
-                        ephemeral: true
+                    selectMenu.callback({
+                        interaction: interaction,
+                        member: member,
+                        user: user,
+                        guild: guild,
+                        client: this.client,
+                        invitePermissions: options.permissionsForInvite,
+                        instance: this,
+                        values: values,
+                        channel: channel,
+                        variables: this.variables
                     });
-
-                    return;
                 }
-
-                selectMenu.callback({
-                    interaction: interaction,
-                    member: member,
-                    user: user,
-                    guild: guild,
-                    client: this.client,
-                    invitePermissions: options.permissionsForInvite,
-                    instance: this,
-                    values: values,
-                    channel: channel,
-                    variables: this.variables
-                });
             }
         });
 
@@ -235,11 +219,10 @@ class HandleBot {
                 return;
             }
 
-            if (options.typescript) {
-                this.handleEvents(options.eventsDir, 'ts');
-            } else if (!options.typescript) {
-                this.handleEvents(options.eventsDir, 'js');
-            }
+            this.handleEvents(
+                options.eventsDir,
+                options.typescript ? 'ts' : 'js'
+            );
         }
 
         if (!options.mongoUri) {
@@ -280,26 +263,6 @@ class HandleBot {
         }
 
         return filePaths;
-    }
-
-    addToServer(server) {
-        const guild = this.client.guilds.cache.get(server);
-
-        if (!guild) {
-            console.log(
-                `[CODE] Server ID: ${server} is invalid. Please pass in a server that exists AND make sure the bot is a member of that server.`
-            );
-            return;
-        } else {
-            guild.commands.set([]);
-            guild.commands.set(this.toAdd);
-
-            console.log(
-                `[CODE] Commands have been added to the server with the ID: ${guild.id} and the name: ${guild.name}`
-            );
-        }
-
-        console.log();
     }
 
     addToServers(servers) {
@@ -451,14 +414,22 @@ class HandleBot {
                 if (!event.once) {
                     this.client.on(event.name, (...args) => {
                         event.callback(
-                            { client: this.client, instance: this },
+                            {
+                                client: this.client,
+                                instance: this,
+                                variables: this.variables
+                            },
                             ...args
                         );
                     });
                 } else {
                     this.client.once(event.name, (...args) => {
                         event.callback(
-                            { client: this.client, instance: this },
+                            {
+                                client: this.client,
+                                instance: this,
+                                variables: this.variables
+                            },
                             ...args
                         );
                     });

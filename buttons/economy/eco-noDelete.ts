@@ -1,4 +1,4 @@
-import { Button } from '../../classes';
+import { Button } from '../../handler';
 
 export default {
     customId: 'eco-noDelete',

@@ -1,4 +1,4 @@
-import { Button } from "../../classes";
+import { Button } from "../../handler";
 
 import { EmbedBuilder, Message } from 'discord.js';
 

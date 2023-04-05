@@ -1,4 +1,4 @@
-import { SlashCommand } from '../../classes';
+import { SlashCommand } from '../../handler';
 import { ButtonBuilder, ActionRowBuilder, OAuth2Scopes, ButtonStyle } from 'discord.js';
 
 export default {

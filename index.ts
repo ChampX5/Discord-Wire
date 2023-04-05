@@ -1,6 +1,6 @@
 import path from 'path';
 import { Client } from 'discord.js';
-import HandleBot from './classes';
+import HandleBot from './handler';
 import 'dotenv/config';
 
 const client = new Client({
@@ -15,7 +15,6 @@ new HandleBot({
     handleEvents: true,
     handleFeatures: false,
     handleButtons: true,
-    handleMenus: false,
     handleSelectMenus: false,
 
     eventsDir: path.join(__dirname, './events'),
@@ -24,7 +23,6 @@ new HandleBot({
     buttonsDir: path.join(__dirname, './buttons'),
 
     typescript: true,
-    server: '914743921219878953',
     permissionsForInvite: [
         'ManageRoles',
         'KickMembers',
@@ -35,7 +33,9 @@ new HandleBot({
         'ManageMessages',
         'UseExternalEmojis'
     ],
-    
+
+    servers: ['914743921219878953'],
+
     token: process.env.TOKEN! as string,
     mongoUri: process.env.mongoUri! as string
 });

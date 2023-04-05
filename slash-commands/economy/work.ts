@@ -8,7 +8,7 @@ import {
     GuildMember
 } from 'discord.js';
 import User from '../../Schemas/UserSchema';
-import { SlashCommand } from '../../classes';
+import { SlashCommand } from '../../handler';
 
 export default {
     name: 'work',

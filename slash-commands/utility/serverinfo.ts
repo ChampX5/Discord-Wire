@@ -1,4 +1,4 @@
-import { SlashCommand } from '../../classes';
+import { SlashCommand } from '../../handler';
 
 import { ChannelType, EmbedBuilder } from 'discord.js';
 

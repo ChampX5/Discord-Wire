@@ -90,7 +90,6 @@ interface ConstructorOptions {
     handleFeatures: boolean;
     handleContextMenus: boolean;
     handleButtons: boolean;
-    handleMenus: boolean;
     handleSelectMenus: boolean;
 
     slashCommandsDir?: PathLike;
@@ -100,7 +99,9 @@ interface ConstructorOptions {
     buttonsDir?: PathLike;
     selectMenusDir?: PathLike;
 
-    typescript: boolean | 'both';
+    servers?: string[];
+
+    typescript: boolean;
     permissionsForInvite: PermissionsString[];
 
     token: string;
@@ -128,13 +129,11 @@ export default class HandleBot {
     private separator: string;
 
     constructor(
-        options: ConstructorOptions &
-            ({ server: string } | { servers: string[] } | {})
+        options: ConstructorOptions
     );
 
     private filter(files: Dirent[], type: 'ts' | 'js', path: PathLike);
 
-    private addToServer(server: string);
     private addToServers(server: string[]);
 
     private handleSlashCommands(directory: PathLike, type: 'ts' | 'js');
@@ -165,7 +164,7 @@ export interface ContextMenu {
 export interface Feature {
     name: string;
 
-    run(obj: SlashCommandCallbackObject): void;
+    run(obj: FeaturesCallbackObject): void;
 }
 
 export interface Event<K extends keyof ClientEvents> {

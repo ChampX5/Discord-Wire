@@ -1,4 +1,4 @@
-import { Button } from '../../classes';
+import { Button } from '../../handler';
 import User from '../../Schemas/UserSchema';
 
 export default {

@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import User from '../../Schemas/UserSchema';
-import { SlashCommand } from '../../classes';
+import { SlashCommand } from '../../handler';
 
 export default {
     name: 'end',

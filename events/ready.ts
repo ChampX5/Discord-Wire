@@ -1,5 +1,5 @@
 import { ActivityType } from 'discord.js';
-import { Event } from '../classes';
+import { Event } from '../handler';
 
 export default {
 	name: 'ready',

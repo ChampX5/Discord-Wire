@@ -1,6 +1,6 @@
 import { ButtonBuilder, ButtonStyle, EmbedBuilder, ActionRowBuilder } from 'discord.js';
 
-import { SlashCommand } from '../../classes';
+import { SlashCommand } from '../../handler';
 
 export default {
 	name: 'calc',

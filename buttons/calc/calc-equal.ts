@@ -5,7 +5,7 @@ import {
     ButtonBuilder,
     ButtonStyle
 } from 'discord.js';
-import { Button } from '../../classes';
+import { Button } from '../../handler';
 
 export default {
     customId: 'calc-equal',

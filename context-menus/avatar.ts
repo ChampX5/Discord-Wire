@@ -6,7 +6,7 @@ import {
     ButtonStyle,
     ApplicationCommandType
 } from 'discord.js';
-import { ContextMenu } from '../classes';
+import { ContextMenu } from '../handler';
 
 export default {
     name: 'View Avatar',
